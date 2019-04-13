@@ -47,17 +47,91 @@ AFRAME.registerComponent('position-display', {
   }
 });
 
+AFRAME.registerComponent('move', {
+  init: function () {
+    var controllerElement = this.el;
+    var cameraRigElement = document.querySelector('#camera-rig');
+    var cameraElement = document.querySelector('#camera');
+
+    var thumbstickPressed = false;
+    var threshold = 0.7;
+
+    controllerElement.addEventListener('triggerdown', () => {
+      var cameraPosition = cameraRigElement.object3D.position;
+      console.log(cameraPosition);
+    });
+
+    controllerElement.addEventListener('axismove', (event) => {
+      var thumbstick = event.detail.axis;
+
+      var textElement = document.querySelector('#thumbstick-text');
+      var squareElement = document.querySelector('#current-square');
+      textElement.setAttribute('text', {
+        value: "Thumbstick: " +  thumbstick[0].toFixed(2) + " " + thumbstick[1].toFixed(2)
+      });
+
+      var horizontal = 0;
+      var vertical = 0;
+
+      if(thumbstick[1] < -threshold) {vertical = -1;}    //up
+      if(thumbstick[1] > threshold) {vertical = 1;}      //down
+      if(thumbstick[0] < -threshold) {horizontal = -1;}  //left
+      if(thumbstick[0] > threshold) {horizontal = 1;}    //right
+
+      var cameraRotation = cameraElement.object3D.rotation;
+      if(Math.abs(cameraRotation.y) > Math.PI * 3/4) {
+        horizontal *= -1;
+        vertical *= -1;
+      }
+      else if (cameraRotation.y > Math.PI / 4 && cameraRotation.y <= Math.PI * 3/4) {
+        var temp = horizontal;
+        horizontal = vertical;
+        vertical = temp;
+      }
+      else if (cameraRotation.y < Math.PI / -4 && cameraRotation.y >= Math.PI * -3/4) {
+        var temp = horizontal;
+        horizontal = -vertical;
+        vertical = -temp;
+      }
+
+      if((horizontal || vertical) && !thumbstickPressed) {
+        thumbstickPressed = true;
+
+        var cameraRigPosition = cameraRigElement.object3D.position;
+        var squarePosition = squareElement.object3D.position;
+      
+        cameraRigElement.setAttribute('position', {
+          x: cameraRigPosition.x + horizontal,
+          y: cameraRigPosition.y,
+          z: cameraRigPosition.z + vertical
+        });
+
+        squareElement.setAttribute('position', {
+          x: squarePosition.x + horizontal,
+          y: squarePosition.y,
+          z: squarePosition.z + vertical
+        });
+      }
+      else if(!horizontal && !vertical) {
+        thumbstickPressed = false;
+      }
+    });
+  }
+});
+
 AFRAME.registerComponent('reset-camera', {
   init: function() {
-    var el = this.el;
+    var controllerElement = this.el;
+    var cameraRigElement = document.querySelector('#camera-rig');
+    var cameraElement = document.querySelector('#camera');
 
-    el.addEventListener('triggerdown', () => {
-      console.log("pushed");
-      var cameraElement = document.querySelector('#camera-rig');
-      cameraElement.setAttribute('position', {
-        x: 0,
-        y: 1.6,
-        z: 0
+    controllerElement.addEventListener('triggerdown', () => {
+      var cameraPosition = cameraElement.object3D.position;
+      
+      cameraRigElement.setAttribute('position', {
+        x: -7.5,
+        y: 0,
+        z: 7.5
       });
     });
   }

@@ -9,10 +9,10 @@
       <!-- <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box> -->
       <!-- <a-sphere position="0 0 0" radius="0.5" color="#EF2D5E"></a-sphere> -->
       <!-- <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder> -->
-      <a-entity id="camera-rig" position="0 1.6 0">
-        <a-entity camera look-controls wasd-controls rotation="0 -90 0" position-display></a-entity>
-        <a-entity windows-motion-controls="hand: left" reset-camera></a-entity>
-        <a-entity windows-motion-controls="hand: right"></a-entity>
+      <a-entity id="camera-rig" position="-7.5 0 7.5">
+        <a-entity id="camera" camera position="0 1.6 0" look-controls wasd-controls rotation="0 -90 0" position-display></a-entity>
+        <a-entity windows-motion-controls="hand: left" move></a-entity>
+        <a-entity windows-motion-controls="hand: right" reset-camera></a-entity>
       </a-entity>
 
       <a-plane position="0 0 -0" rotation="-90 0 0" width="16" height="16" color="#34386d"></a-plane>
@@ -20,13 +20,19 @@
       <!-- Axis Lines -->
       <a-entity visible="false" line__x="start: 0, 0, 0; end: 8 0 0; color: red" line__y="start: 0, 0, 0; end: 0 8 0; color: blue" line__z="start: 0, 0, 0; end: 0 0 8; color: green"></a-entity>
 
+      <a-plane id="current-square" position="-7.5 0.01 7.5" rotation="-90 0 0" width="1" height="1" color="cyan"></a-plane>
+
+      <!-- <a-entity position="-8 0.01 7" line__c1="start: 0, 0, 0; end: 1 0 0; color: cyan" line__c2="start: 0, 0, 0; end: 0 0 1; color: cyan" line__c3="start: 1, 0, 0; end: 1 0 1; color: cyan" line__c4="start: 0, 0, 1; end: 1 0 1; color: cyan"></a-entity> -->
+
       <!-- Grid lines -->
       <a-entity generate-lines></a-entity>
 
       <!-- Text -->
-      <a-entity position="0 5 -8" text="align: center; value: Minesweeper; width: 20; side: double;"></a-entity>
+      <a-entity position="0 7 -8" text="align: center; value: Minesweeper; width: 20; side: double;"></a-entity>
 
-      <a-entity id="position-text" position="0 3 -8" text="align: center; value: Value; width: 20; side: double;"></a-entity>
+      <a-entity id="position-text" position="0 5 -8" text="align: center; value: Rotation; width: 20; side: double;"></a-entity>
+
+      <a-entity id="thumbstick-text" position="0 3 -8" text="align: center; value: Thumbstick; width: 20; side: double;"></a-entity>
 
       <!-- a-entity geometry="primitive: plane; height: 16; width: 16"
           position="0 -0.5 0"
