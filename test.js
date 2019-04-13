@@ -85,12 +85,12 @@ AFRAME.registerComponent('move', {
       }
       else if (cameraRotation.y > Math.PI / 4 && cameraRotation.y <= Math.PI * 3/4) {
         var temp = horizontal;
-        horizontal = -vertical;
+        horizontal = vertical;
         vertical = -temp;
       }
       else if (cameraRotation.y < Math.PI / -4 && cameraRotation.y >= Math.PI * -3/4) {
         var temp = horizontal;
-        horizontal = vertical;
+        horizontal = -vertical;
         vertical = temp;
       }
 
