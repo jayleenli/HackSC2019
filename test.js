@@ -1,10 +1,10 @@
 AFRAME.registerComponent('generate-lines', {
   init: function() {
-    var el = this.el;
+    var element = this.el;
 
     var i, count;
     for(i = -8, count = 0; i <= 8; i++, count++) {
-      el.setAttribute('line__gridx' + count, {
+      element.setAttribute('line__gridx' + count, {
         start: {
           x: -8, 
           y: 0,
@@ -18,7 +18,7 @@ AFRAME.registerComponent('generate-lines', {
         color: 'white'
       });
 
-      el.setAttribute('line__gridz' + count, {
+      element.setAttribute('line__gridz' + count, {
         start: {
           x: i, 
           y: 0,
