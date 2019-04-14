@@ -1,5 +1,5 @@
 var grid;
-var numBombs = 30;
+var numBombs = 2;
 
 function initGame() {
   grid = new Array(16).fill(0);
