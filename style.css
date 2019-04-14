@@ -7,6 +7,10 @@ button{
 	float: left;
 }
 
+button:focus {
+	outline: none;
+}
+
 .tile{
 	width: calc(100% / 16);
 	height: calc(100vw / 16);
