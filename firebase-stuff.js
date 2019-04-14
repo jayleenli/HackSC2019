@@ -27,7 +27,7 @@ const fakeGrid = () => {
 	return points;
 };
 
-const initGrid = (presetGrid = fakeGrid(), currentPos = {x: 0, y: 15}) => {
+const initGrid = (presetGrid = fakeGrid(), currentPos = {x: 15, y: 0}) => {
 	var points = [];
 	for (x=0; x<16; x++) {
 		points[x] = [];
