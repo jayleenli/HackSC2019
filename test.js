@@ -44,14 +44,17 @@ AFRAME.registerComponent('generate-boxes', {
 		//first one -7.5 .70 7.5
 		var positionx = -7.5;
 		var positiony = 7.5;
-		var index = 0;
 		for (var x = 0; x < 16; x++) {
 			positiony = 7.5;
 			for (var y = 0; y < 16; y++) {
-				var box = '<a-box visible="false" mixin="cube" position="' + positionx + ' .70 ' + positiony + '" color="#404589" collision-filter="group: yeet; collidesWith: default, yeet" id="yeetbox'+index+'"></a-box>';
-				element.innerHTML += box;
+				var box = document.createElement('a-box'); 
+				box.setAttribute('visible', false);
+				box.setAttribute('mixin', "cube");
+				box.setAttribute('position', positionx + " .70 " + positiony);
+				box.setAttribute('color',"#404589");
+				box.setAttribute('collision-filter',"group: yeet; collidesWith: default, yeet");
+				element.appendChild(box);
 				positiony -= 1;
-				index++;
 			}
 			positionx += 1;
 		}
