@@ -35,6 +35,30 @@ AFRAME.registerComponent('generate-lines', {
 	}
 });
 
+AFRAME.registerComponent('generate-boxes', {
+	init: function() {
+
+		var element = this.el;
+
+		console.log(element.innerHTML);
+		//first one -7.5 .70 7.5
+		var positionx = -7.5;
+		var positiony = 7.5;
+		var index = 0;
+		for (var x = 0; x < 16; x++) {
+			positiony = 7.5;
+			for (var y = 0; y < 16; y++) {
+				var box = '<a-box visible="false" mixin="cube" position="' + positionx + ' .70 ' + positiony + '" color="#404589" collision-filter="group: yeet; collidesWith: default, yeet" id="yeetbox'+index+'"></a-box>';
+				element.innerHTML += box;
+				positiony -= 1;
+				index++;
+			}
+			positionx += 1;
+		}
+	}
+});
+
+
 AFRAME.registerComponent('position-display', {
 	tick: function () {
 		var rotation = this.el.object3D.rotation;
@@ -46,6 +70,17 @@ AFRAME.registerComponent('position-display', {
 		});
 	}
 });
+
+AFRAME.registerComponent('pick-block', {
+	init: function() {
+		var block = this.el;
+		var controller = document.querySelector("#rightHand");
+
+		controller.addEventListener('triggerdown', () => {
+			block.setAttribute('visible', true);
+		})
+	}
+})
 
 AFRAME.registerComponent('move', {
 	init: function () {

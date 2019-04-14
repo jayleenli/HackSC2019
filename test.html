@@ -26,7 +26,7 @@
                               grabEndButtons: gripup, pointup, triggerup"
                  static-body="shape: sphere; sphereRadius: 0.11"
                  physics-collider
-                 collision-filter = "collidesWith: default, red, green, blue;
+                 collision-filter = "collidesWith: default, red, green, blue, yeet;
                                      collisionForces: false">
 		        </a-mixin>
 		        <a-mixin id="cube" geometry="width: 1; height: 1; depth: 1" dynamic-body hoverable grabbable></a-mixin>
@@ -44,7 +44,7 @@
 			</a-entity>
 
 			<!-- Plane and Sky -->
-			<a-plane position="0 0 -0" rotation="-90 0 0" width="16" height="16" color="#34386d" static-body collision-filter="group: default; collidesWith: green"></a-plane>
+			<a-plane position="0 0 -0" rotation="-90 0 0" width="16" height="16" color="#34386d" static-body collision-filter="group: default; collidesWith: yeet"></a-plane>
 			<a-sky color="#0b0e30"></a-sky>
 			
 			<!-- Axis Lines -->
@@ -53,16 +53,12 @@
 			<!-- Grid lines -->
 			<a-entity generate-lines></a-entity>
 
+			<!--spawn boxes -->
+			<a-entity generate-boxes> </a-entity>
+
 			<!-- Current Square -->
 			<a-plane id="current-square" position="-7.5 0.01 7.5" rotation="-90 0 0" width="1" height="1" color="cyan" ></a-plane>
 
-			<a-box mixin="cube" position="-5 1 7" color="green"
-             collision-filter="group: green; collidesWith: default, green">
-      		</a-box>
-
-      		<a-box visible="false" mixin="cube" position="-4 0.25 7" color="red" collision-filter="group: green; collidesWith: default, green" id="redbox">
-      		</a-box>
-      			<!--animation="property: position; to: 0 15 0; dur: 15000; easing: linear" -->
 			<!--Flag-->
 			<a-entity id ="flag" visible="false">
 				<a-box position="-10 .1 0" color="#5b5b5b" rotation="0 0 0" width="1" height=".1" depth="1">
