@@ -7,9 +7,30 @@
 		<script src="firebase-stuff.js"></script>
 		<script src="test.js"></script>
 		<script src="game.js"></script>
+		<script src="https://cdn.rawgit.com/donmccurdy/aframe-physics-system/v2.1.0/dist/aframe-physics-system.min.js"></script>
+		<script src="https://unpkg.com/super-hands/dist/super-hands.min.js"></script>
+		<script src="https://unpkg.com/aframe-physics-extras@0.1.2/dist/aframe-physics-extras.min.js"></script>
+		<script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
+		<script src="https://unpkg.com/aframe-event-set-component@^4.0.0/dist/aframe-event-set-component.min.js"></script>
+
 	</head>
 	<body>
-		<a-scene>
+		<a-scene physics="gravity: -.5">
+			<a-assets>
+				<a-mixin id="controller"
+                 super-hands="colliderEvent: collisions;
+                              colliderEventProperty: els;
+                              colliderEndEvent: collisions;
+                              colliderEndEventProperty: clearedEls;
+                              grabStartButtons: gripdown, pointdown, triggerdown;
+                              grabEndButtons: gripup, pointup, triggerup"
+                 static-body="shape: sphere; sphereRadius: 0.11"
+                 physics-collider
+                 collision-filter = "collidesWith: default, red, green, blue, yeet;
+                                     collisionForces: false">
+		        </a-mixin>
+		        <a-mixin id="cube" geometry="width: 1; height: 1; depth: 1" dynamic-body hoverable grabbable></a-mixin>
+			</a-assets>
 			<!-- Camera and Motion Controllers -->
 			<a-entity id="camera-rig">
 				<a-entity id="camera" camera position="0 1.6 0" look-controls wasd-controls rotation="0 -90 0" position-display>
@@ -18,12 +39,12 @@
 					<a-entity visible="false" id="position-text" position="0 -3 -3" text="align: center; value: Rotation; width: 10; side: double;"></a-entity>
 					<a-entity visible="false" id="thumbstick-text" position="0 -3.5 -3" text="align: center; value: Thumbstick; width: 10; side: double;"></a-entity>
 				</a-entity>
-				<a-entity windows-motion-controls="hand: left" move></a-entity>
-				<a-entity windows-motion-controls="hand: right" move></a-entity>
+				<a-entity windows-motion-controls="hand: left" move ></a-entity>
+				<a-entity windows-motion-controls="hand: right" move id="rightHand" hand-controls="right" mixin="controller"></a-entity>
 			</a-entity>
 
 			<!-- Plane and Sky -->
-			<a-plane position="0 0 -0" rotation="-90 0 0" width="16" height="16" color="#34386d"></a-plane>
+			<a-plane position="0 0 -0" rotation="-90 0 0" width="16" height="16" color="#34386d" static-body collision-filter="group: default; collidesWith: yeet"></a-plane>
 			<a-sky color="#0b0e30"></a-sky>
 			
 			<!-- Axis Lines -->
@@ -31,6 +52,9 @@
 
 			<!-- Grid lines -->
 			<a-entity generate-lines></a-entity>
+
+			<!--spawn boxes -->
+			<a-entity generate-boxes> </a-entity>
 
 			<!-- Current Square -->
 			<a-plane id="current-square" position="-7.5 0.01 7.5" rotation="-90 0 0" width="1" height="1" color="cyan" spawn></a-plane>

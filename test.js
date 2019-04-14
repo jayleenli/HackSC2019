@@ -35,6 +35,37 @@ AFRAME.registerComponent('generate-lines', {
 	}
 });
 
+AFRAME.registerComponent('generate-boxes', {
+	init: function() {
+
+		var element = this.el;
+
+		console.log(element.innerHTML);
+		//first one -7.5 .70 7.5
+		var positionx = -7.5;
+		var positiony = 7.5;
+		for (var x = 0; x < 16; x++) {
+			positiony = 7.5;
+			for (var y = 0; y < 16; y++) {
+				var box = document.createElement('a-box'); 
+				box.setAttribute('visible', false);
+				box.setAttribute('position', {
+					x: positionx,
+					y: .70,
+					z: positiony
+				});
+				box.setAttribute('color',"#404589");
+				box.setAttribute('collision-filter',"group: yeet; collidesWith: default, yeet");
+				box.setAttribute('pick-block', true);
+				element.appendChild(box);
+				positiony -= 1;
+			}
+			positionx += 1;
+		}
+	}
+});
+
+
 AFRAME.registerComponent('position-display', {
 	tick: function () {
 		var rotation = this.el.object3D.rotation;
@@ -79,6 +110,25 @@ AFRAME.registerComponent('spawn', {
 	}
 });
 
+AFRAME.registerComponent('pick-block', {
+	init: function() {
+		var block = this.el;
+		var controller = document.querySelector("#rightHand");
+
+		controller.addEventListener('triggerdown', (event) => {
+			var blockPosition = block.object3D.position;
+
+			if(Math.abs(blockPosition.z - playerCoordinate.x) < 0.5 && Math.abs(blockPosition.x - playerCoordinate.y) < 0.5) {
+				block.setAttribute('mixin', "cube");
+				block.setAttribute('visible', true);
+				setTimeout(() => {
+					block.parentNode.removeChild(block);
+				}, 30000);
+			}
+		});
+	}
+})
+
 AFRAME.registerComponent('move', {
 	init: function () {
 		var controllerElement = this.el;
@@ -88,10 +138,10 @@ AFRAME.registerComponent('move', {
 		var thumbstickPressed = false;
 		var threshold = 0.7;
 
-		controllerElement.addEventListener('triggerdown', () => {
-			var cameraPosition = cameraRigElement.object3D.position;
-			// console.log(cameraPosition);
-		});
+		// controllerElement.addEventListener('triggerdown', () => {
+		// 	var cameraPosition = cameraRigElement.object3D.position;
+		// 	console.log(cameraPosition);
+		// });
 
 		controllerElement.addEventListener('axismove', (event) => {
 			var thumbstick = event.detail.axis;
@@ -139,6 +189,9 @@ AFRAME.registerComponent('move', {
 				}
 
 				if(newCoordinate.x >= 0 && newCoordinate.x < 16 && newCoordinate.y >= 0 && newCoordinate.y < 16) {
+					playerCoordinate.x = squarePosition.z + vertical;
+					playerCoordinate.y = squarePosition.x + horizontal;
+
 					squarePosition.x += horizontal;
 					squarePosition.z += vertical;
 					cameraRigPosition.x += horizontal;
@@ -186,3 +239,4 @@ AFRAME.registerComponent('move', {
 		});
 	}
 });
+

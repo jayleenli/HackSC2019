@@ -1,5 +1,9 @@
 var grid;
 var numBombs = 2;
+var playerCoordinate = {
+  x: 7.5,
+  y: -7.5
+};
 
 function initGame() {
   grid = new Array(16).fill(0);
