@@ -49,10 +49,14 @@ AFRAME.registerComponent('generate-boxes', {
 			for (var y = 0; y < 16; y++) {
 				var box = document.createElement('a-box'); 
 				box.setAttribute('visible', false);
-				box.setAttribute('mixin', "cube");
-				box.setAttribute('position', positionx + " .70 " + positiony);
+				box.setAttribute('position', {
+					x: positionx,
+					y: .70,
+					z: positiony
+				});
 				box.setAttribute('color',"#404589");
 				box.setAttribute('collision-filter',"group: yeet; collidesWith: default, yeet");
+				box.setAttribute('pick-block', true);
 				element.appendChild(box);
 				positiony -= 1;
 			}
@@ -79,9 +83,17 @@ AFRAME.registerComponent('pick-block', {
 		var block = this.el;
 		var controller = document.querySelector("#rightHand");
 
-		controller.addEventListener('triggerdown', () => {
-			block.setAttribute('visible', true);
-		})
+		controller.addEventListener('triggerdown', (event) => {
+			var blockPosition = block.object3D.position;
+
+			if(Math.abs(blockPosition.z - playerCoordinate.x) < 0.5 && Math.abs(blockPosition.x - playerCoordinate.y) < 0.5) {
+				block.setAttribute('mixin', "cube");
+				block.setAttribute('visible', true);
+				setTimeout(() => {
+					block.parentNode.removeChild(block);
+				}, 30000);
+			}
+		});
 	}
 })
 
@@ -98,14 +110,6 @@ AFRAME.registerComponent('move', {
 		// 	var cameraPosition = cameraRigElement.object3D.position;
 		// 	console.log(cameraPosition);
 		// });
-
-		var element = document.querySelector('#redbox');
-
-		console.log(element);
-
-		controllerElement.addEventListener('gripdown', (event) => {
-			element.setAttribute('visible', true);
-		})
 
 		controllerElement.addEventListener('axismove', (event) => {
 			var thumbstick = event.detail.axis;
@@ -153,6 +157,9 @@ AFRAME.registerComponent('move', {
 				}
 
 				if(newCoordinate.x >= 0 && newCoordinate.x < 16 && newCoordinate.y >= 0 && newCoordinate.y < 16) {
+					playerCoordinate.x = squarePosition.z + vertical;
+					playerCoordinate.y = squarePosition.x + horizontal;
+
 					squarePosition.x += horizontal;
 					squarePosition.z += vertical;
 					cameraRigPosition.x += horizontal;

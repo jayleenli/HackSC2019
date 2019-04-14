@@ -1,4 +1,8 @@
 var grid;
+var playerCoordinate = {
+  x: 7.5,
+  y: -7.5
+};
 
 window.onload = function() {
   initGame();
