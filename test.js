@@ -133,7 +133,7 @@ AFRAME.registerComponent('pick-block', {
 						var blockPosition = block.object3D.position;
 						var enemyPosition = enemyChildren[i].object3D.position;
 
-						if(Math.abs(enemyPosition.x - blockPosition.x) < 0.5 && Math.abs(enemyPosition.z - blockPosition.z) < 0.5) {
+						if(Math.abs(enemyPosition.x - blockPosition.x) < 0.75 && Math.abs(enemyPosition.z - blockPosition.z) < 0.75) {
 							enemyChildren[i].parentNode.removeChild(enemyChildren[i]);
 							block.parentNode.removeChild(block);
 						}
