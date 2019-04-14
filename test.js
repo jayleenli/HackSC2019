@@ -125,3 +125,4 @@ AFRAME.registerComponent('move', {
 		});
 	}
 });
+

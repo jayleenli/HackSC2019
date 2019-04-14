@@ -15,7 +15,7 @@
 
 	</head>
 	<body>
-		<a-scene physics="gravity: 0">
+		<a-scene physics="gravity: -.5">
 			<a-assets>
 				<a-mixin id="controller"
                  super-hands="colliderEvent: collisions;
@@ -29,7 +29,7 @@
                  collision-filter = "collidesWith: default, red, green, blue;
                                      collisionForces: false">
 		        </a-mixin>
-		        <a-mixin id="cube" geometry="width: 0.5; height: 0.5; depth: 0.5" dynamic-body hoverable grabbable></a-mixin>
+		        <a-mixin id="cube" geometry="width: 1; height: 1; depth: 1" dynamic-body hoverable grabbable></a-mixin>
 			</a-assets>
 			<!-- Camera and Motion Controllers -->
 			<a-entity id="camera-rig" position="-7.5 0 7.5">
@@ -59,6 +59,10 @@
 			<a-box mixin="cube" position="-5 1 7" color="green"
              collision-filter="group: green; collidesWith: default, green">
       		</a-box>
+
+      		<a-box visible="false" mixin="cube" position="-4 1 7" color="red"
+             collision-filter="group: green; collidesWith: default, green" id="redbox">
+      		</a-box>
       			<!--animation="property: position; to: 0 15 0; dur: 15000; easing: linear" -->
 			<!--Flag-->
 			<a-entity id ="flag" visible="false">
@@ -68,5 +72,13 @@
 				<a-triangle color="#ff0000" vertex-c=".6 -.25 .6" vertex-a="0 0 0" vertex-b="0 -.5 0" position="0 .75 0"></a-triangle>
 			</a-entity>
 		</a-scene>
+		<script>
+			var element = document.querySelector("a-scene").querySelector("#redbox");
+			console.log(element);
+			element.setAttribute('visible', true);
+			element.addEventListener('gripdown', () => {
+				element.setAttribute('visible', false);
+			});
+		</script>
 	</body>
 </html>
