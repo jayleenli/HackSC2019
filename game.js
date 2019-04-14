@@ -4,6 +4,8 @@ var playerCoordinate = {
   x: 7.5,
   y: -7.5
 };
+var gameEnded = false;
+var startTime = Date.now();
 
 function initGame() {
   grid = new Array(16).fill(0);

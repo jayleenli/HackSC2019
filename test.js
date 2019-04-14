@@ -215,7 +215,11 @@ AFRAME.registerComponent('move', {
 
 					if(grid[newCoordinate.x][newCoordinate.y].bomb) {
 						skyElement.setAttribute('color', "red");
+						gameEnded = true;
 						died(); //firebase
+
+						var subTextElement = document.querySelector('#sub-text');
+						subTextElement.setAttribute('text', {value: "You exploded!"});
 					}
 
 					 firebase.database().ref('/grids').once('value').then((snapshot) => {
@@ -231,8 +235,11 @@ AFRAME.registerComponent('move', {
 				  		}
 				  	}
 				  	if(won == true) {
-				  		console.log('you won');
+				  		var subTextElement = document.querySelector('#sub-text');
+							subTextElement.setAttribute('text', {value: "You survived!"});
+
 					  	skyElement.setAttribute('color', "green");
+					  	gameEnded = true;
 							updateWin();
 				  	}
 					});
@@ -325,12 +332,36 @@ AFRAME.registerComponent('enemy', {
 
 			if(Math.abs(enemyPosition.z - playerCoordinate.x) < 0.5 && Math.abs(enemyPosition.x - playerCoordinate.y) < 0.5) {
 				skyElement.setAttribute('color', "red");
+				gameEnded = true;
 				died(); //firebase
+
+				var subTextElement = document.querySelector('#sub-text');
+				subTextElement.setAttribute('text', {value: "You exploded!"});
 			}
 		}, 250);
 
 		window.setTimeout(() => {
 			clearInterval(enemyInterval);
 		}, 10000);
+	}
+});
+
+AFRAME.registerComponent('clock', {
+	tick: function() {
+		if(!gameEnded) {
+			var textElement = document.querySelector('#title-text');
+
+			var seconds = ((Date.now() - startTime)/1000) % 60;
+			seconds = seconds.toFixed(1);
+			if(seconds < 10) { 
+				seconds = "0" + seconds;
+			}
+
+			var minutes = Math.floor((Date.now() - startTime)/60000);
+
+			textElement.setAttribute('text', {
+				value: "Time: " + minutes + ":" + seconds
+			});
+		}
 	}
 });
