@@ -4,10 +4,23 @@ var column = 16;
 var backgroundColor = "#0b0e30";
 var plainColor = "#34386d";
 var flagColor = "#f93502";
+var highlightColor = "#12abd5";
+var indicatorColors = {
+	0: "98c8ff",
+	1: "#7ba3ff",
+	2: "#3230c8",
+	3: "#581f57",
+	4: "#590d20",
+	5: "#850000",
+	6: "#c40000",
+	7: "#ff4400",
+	X: "#ff0000"
+};
 
-window.onload = function() {
-	initGrid("mine-field", row, column);
-}
+
+// window.onload = function() {
+// 	initGrid("mine-field", row, column);
+// }
 
 function initGrid(gridId, rowNum, columnNum) {
 	var grid = document.getElementById(gridId);
@@ -23,7 +36,7 @@ function initGrid(gridId, rowNum, columnNum) {
 			gridButton.style.borderColor = backgroundColor;
 			gridButton.addEventListener('click', function() {
 				flagTile(event.currentTarget);
-				revealTile(event.currentTarget, 1);
+				// revealTile(event.currentTarget, 1);
 			});
 			// gridButton.setAttribute("background", plainColor);
 			// gridButton.setAttribute("width", "100px");
@@ -51,10 +64,18 @@ function revealTile(target, bombIndicator) {
 	// var textNode = document.createTextNode(bombIndicator);
 	// target.appendChild(textNode);
 	// target.style.textAlign = "center";
-	// target.style.color = "white";
+	target.style.color = indicatorColors[bombIndicator];
 	// target.style.padding = 0;
 	// target.style.margin = 0;
 	// target.style.lineHeight = 0;
 	// target.style.letterSpacing = 0;
 
+}
+
+function highlightTile(target) {
+	target.style.border = "medium solid " + highlightColor;
+}
+
+function deHighlightTile(target) {
+	target.style.border = "thin solid" + backgroundColor;
 }

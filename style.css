@@ -3,6 +3,10 @@ body{
 	background: #0b0e30;
 }
 
+button{
+	float: left;
+}
+
 .tile{
 	width: calc(100% / 16);
 	height: calc(100vw / 16);
@@ -13,4 +17,5 @@ body{
 	margin: 0px;
 	line-height: 0px;
 	letter-spacing: 0px;
+	font-size: calc(100vw / 16);
 }
