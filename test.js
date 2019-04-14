@@ -149,14 +149,35 @@ AFRAME.registerComponent('move', {
 						skyElement.setAttribute('color', "red");
 						died(); //firebase
 					}
+					/*
 					(async function(){
 						  var checkWin = await checkWin();
+
 						  if (checkWin == true) {
 						  	console.log('you won');
 						  	skyElement.setAttribute('color', "green");
 							updateWin();
 						  }
 					  })();
+					  */
+					 firebase.database().ref('/grids').once('value').then((snapshot) => {
+					  	var state = snapshot.val();
+					  	var won = true;
+					  	for (x=0; x<16; x++) {
+					  		for (y=0; y<16; y++) {
+					  			if (state.points[x][y].revealed == false && state.points[x][y].bomb == false)
+					  			{
+					  				won = false;
+					  				break;
+					  			}
+					  		}
+					  	}
+					  	if(won == true) {
+					  		console.log('you won');
+						  	skyElement.setAttribute('color', "green");
+								updateWin();
+					  	}
+						});
 				}
 			}
 			else if(!horizontal && !vertical) {
