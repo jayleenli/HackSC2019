@@ -1,10 +1,10 @@
 const firebaseConfig = {
 	apiKey: "AIzaSyBrAnW65FVKNAcNns3zVfa0z1MT_I0___c",
-    authDomain: "hacksc-538d5.firebaseapp.com",
-    databaseURL: "https://hacksc-538d5.firebaseio.com",
-    projectId: "hacksc-538d5",
-    storageBucket: "hacksc-538d5.appspot.com",
-    messagingSenderId: "548745669097"
+  authDomain: "hacksc-538d5.firebaseapp.com",
+  databaseURL: "https://hacksc-538d5.firebaseio.com",
+  projectId: "hacksc-538d5",
+  storageBucket: "hacksc-538d5.appspot.com",
+  messagingSenderId: "548745669097"
 };
 
 const init = () => {
@@ -64,7 +64,6 @@ const died = (x,y) => {
 
 const getGridState = () => {
 	return firebase.database().ref('/grids').once('value').then((snapshot) => {
-		//console.log(snapshot.val());
 		return snapshot.val();
 	});
 }
