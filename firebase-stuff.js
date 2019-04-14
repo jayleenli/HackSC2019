@@ -11,7 +11,7 @@ const init = () => {
 	firebase.initializeApp(firebaseConfig);
 };
 
-const fakeMaze = () => {
+const fakeGrid = () => {
 	var points = [];
 	for (x=0; x<16; x++) {
 		points[x] = [];
@@ -27,12 +27,12 @@ const fakeMaze = () => {
 	return points;
 };
 
-const initMaze = (presetMaze = fakeMaze()) => {
+const initGrid = (presetGrid = fakeGrid()) => {
 	var points = [];
 	for (x=0; x<16; x++) {
 		points[x] = [];
 		for (y=0; y<16; y++) {
-			var tile = presetMaze[x][y];
+			var tile = presetGrid[x][y];
 			points[x][y] = {
 				'bomb': tile.bomb,
 				'number': tile.number,
@@ -65,6 +65,10 @@ const getGridState = () => {
 		//console.log(snapshot.val());
 		return snapshot.val();
 	});
+}
+
+const resetGrid = (newGrid) => {
+	initGrid(newGrid);
 }
 
 init();
