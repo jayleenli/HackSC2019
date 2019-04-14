@@ -56,9 +56,10 @@ const getGridState = () => {
 const checkWin = () => {
 	return (async function(){
 	  	var state = await getGridState();
+	  	int reveledCount = 0;
 	  	for (x=0; x<16; x++) {
 	  		for (y=0; y<16; y++) {
-	  			if (state.points[x][y].revealed == false)
+	  			if (state.points[x][y].revealed == false && state.points[x][y].bomb == false)
 	  			{
 	  				return false;
 	  			}

@@ -152,6 +152,7 @@ AFRAME.registerComponent('move', {
 					(async function(){
 						  var checkWin = await checkWin();
 						  if (checkWin == true) {
+						  	console.log('you won');
 						  	skyElement.setAttribute('color', "green");
 							updateWin();
 						  }
