@@ -21,6 +21,15 @@ const init = () => {
 window.onload = function() {
 	initGrid("mine-field", row, column);
 	init();
+	initCounter("title-bar");
+}
+
+const flagBomb = (x,y) => {
+	firebase.database().ref('/grids/points/' + x + '/' + y).update({flagged: true});
+};
+
+const unflagBomb = (x, y) => {
+	firebase.database().ref('/grids/points' + x + '/' + y).update({flagged: false});
 }
 
 const newCurrTile = () => {
@@ -46,4 +55,12 @@ const revealNewTile = (tile, currGrid) => {
 			}
 		});
 }
+
+const getBombCount = (bombCount) => {
+	firebase.database().ref('/grids/numBombs').once('value', (snapshot) => {
+		console.log(snapshot.val());
+		bombCount = snapshot.val();
+	});
+}
+
 
