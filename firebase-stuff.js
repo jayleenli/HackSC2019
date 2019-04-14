@@ -25,7 +25,7 @@ const initGrid = (presetGrid, currentPos) => {
 			};
 		}
 	}
-	firebase.database().ref('grids/').set({
+	firebase.database().ref('grids/').update({
 		'points': points,
 		'isDead': false,
 		'currentPosition': currentPos
@@ -54,6 +54,10 @@ const getGridState = () => {
 
 const resetGrid = (newGrid) => {
 	initGrid(newGrid);
+}
+
+const setNumBombs = (numBombs) => {
+	firebase.database().ref('/grids').update({numBombs: numBombs});
 }
 
 init();
