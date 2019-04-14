@@ -61,17 +61,18 @@ AFRAME.registerComponent('spawn', {
     	y = getRandomNumber(16);
 
     	if(!grid[x][y].bomb && grid[x][y].number == 0) {
-    		console.log((7.5 + x) + " " + (7.5 + y));
     		// Move camera to spawn location
 	      var squarePosition = squareElement.object3D.position;
 	      var cameraPosition = cameraRigElement.object3D.position;
-	      squarePosition.z = 7.5 + x;
-	      squarePosition.x = 7.5 + y;
-	      cameraPosition.z = 7.5 + x;
-	      cameraPosition.x = 7.5 + y;
+
+	      squarePosition.z = x - 7.5;
+	      squarePosition.x = y - 7.5;
+
+	      cameraPosition.z = x - 7.5;
+	      cameraPosition.x = y - 7.5;
 
 	      // Initialize grid in Firebase
-	      initGrid(grid, squarePosition); //firebase
+	      initGrid(grid, {x: x, y: y}); //firebase
 	      break;
 	    }
 		}

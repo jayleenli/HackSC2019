@@ -11,23 +11,7 @@ const init = () => {
 	firebase.initializeApp(firebaseConfig);
 };
 
-const fakeGrid = () => {
-	var points = [];
-	for (x=0; x<16; x++) {
-		points[x] = [];
-		for (y=0; y<16; y++) {
-			points[x][y] = {
-				'bomb': 0,
-				'number': 0,
-				'revealed': false,
-				'flagged': false
-			};
-		}
-	}
-	return points;
-};
-
-const initGrid = (presetGrid = fakeGrid(), currentPos) => {
+const initGrid = (presetGrid, currentPos) => {
 	var points = [];
 	for (x=0; x<16; x++) {
 		points[x] = [];
