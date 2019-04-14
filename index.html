@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+	<head>
+		<script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-database.js"></script>
+		<script src="./firebase-stuff.js"></script>
+	</head>
+	<body>
+		<a href="./test.html"><h1>I'm in the Minefield</h1></a>
+		<a href="./pc.html"><h1>I'm watching the Minefield</h1></a>
+		<button id="myBtn">Initialize the maze</button>
+		<button id="step">Step on 3, 4</button>
+		<button id="die">Die</button>
+		<button id="state">Get Grid State</button>
+		<script>
+			document.getElementById("myBtn").addEventListener("click", function(){
+			  initMaze();
+			});
+			document.getElementById("step").addEventListener("click", function(){
+			  stepOn(3, 4);
+			});
+			document.getElementById("die").addEventListener("click", function(){
+			  died(3, 4);
+			});
+			document.getElementById("state").addEventListener("click", function(){
+			  (async function(){
+			  	var state = await getGridState();
+			  	console.log(state);
+			  })();
+			});
+		</script>
+	</body>
+</html>
