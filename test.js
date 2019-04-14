@@ -116,6 +116,7 @@ AFRAME.registerComponent('spawn', {
 AFRAME.registerComponent('pick-block', {
 	init: function() {
 		var block = this.el;
+		var enemyElement = document.querySelector('#enemies');
 		var controller = document.querySelector("#rightHand");
 
 		controller.addEventListener('triggerdown', (event) => {
@@ -124,9 +125,20 @@ AFRAME.registerComponent('pick-block', {
 			if(Math.abs(blockPosition.z - playerCoordinate.x) < 0.5 && Math.abs(blockPosition.x - playerCoordinate.y) < 0.5) {
 				block.setAttribute('mixin', "cube");
 				block.setAttribute('visible', true);
-				setTimeout(() => {
-					block.parentNode.removeChild(block);
-				}, 30000);
+
+				setInterval(() => {
+					var enemyChildren = enemyElement.children;
+
+					for(var i = 0; i < enemyChildren.length; i++) {
+						var blockPosition = block.object3D.position;
+						var enemyPosition = enemyChildren[i].object3D.position;
+
+						if(Math.abs(enemyPosition.x - blockPosition.x) < 0.5 && Math.abs(enemyPosition.z - blockPosition.z) < 0.5) {
+							enemyChildren[i].parentNode.removeChild(enemyChildren[i]);
+							block.parentNode.removeChild(block);
+						}
+					}
+				}, 250);
 			}
 		});
 	}
@@ -203,7 +215,6 @@ AFRAME.registerComponent('move', {
 
 					if(grid[newCoordinate.x][newCoordinate.y].bomb) {
 						skyElement.setAttribute('color', "red");
-						gameInProgress - false;
 						died(); //firebase
 					}
 
@@ -222,7 +233,6 @@ AFRAME.registerComponent('move', {
 				  	if(won == true) {
 				  		console.log('you won');
 					  	skyElement.setAttribute('color', "green");
-					  	gameInProgress = false;
 							updateWin();
 				  	}
 					});
@@ -286,6 +296,7 @@ AFRAME.registerComponent('generate-enemies', {
 			newEnemy.setAttribute('color', 'gray');
 			newEnemy.setAttribute('radius', 0.5);
 			newEnemy.setAttribute('position', position1); 
+			newEnemy.setAttribute('enemy', true);
 			newEnemy.setAttribute('animation', {
 				property: "position",
 				to: position2,
@@ -302,4 +313,24 @@ AFRAME.registerComponent('generate-enemies', {
 			}, 10000);
 		}, 5000);
 	}
-})
+});
+
+AFRAME.registerComponent('enemy', {
+	init: function() {
+		var enemyElement = this.el;
+		var skyElement = document.querySelector('a-sky');
+
+		var enemyInterval = window.setInterval(() => {
+			var enemyPosition = enemyElement.object3D.position;
+
+			if(Math.abs(enemyPosition.z - playerCoordinate.x) < 0.5 && Math.abs(enemyPosition.x - playerCoordinate.y) < 0.5) {
+				skyElement.setAttribute('color', "red");
+				died(); //firebase
+			}
+		}, 250);
+
+		window.setTimeout(() => {
+			clearInterval(enemyInterval);
+		}, 10000);
+	}
+});
