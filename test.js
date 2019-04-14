@@ -98,21 +98,23 @@ AFRAME.registerComponent('move', {
       if((horizontal || vertical) && !thumbstickPressed) {
         thumbstickPressed = true;
 
-        var cameraRigPosition = cameraRigElement.object3D.position;
-        cameraRigPosition.x += horizontal;
-        cameraRigPosition.z += vertical;
-        cameraRigElement.setAttribute('position', cameraRigPosition);
-
         var squarePosition = squareElement.object3D.position;
-        squarePosition.x += horizontal;
-        squarePosition.z += vertical;
-        squareElement.setAttribute('position', squarePosition);
+        var cameraRigPosition = cameraRigElement.object3D.position;
 
-        console.log((squarePosition.x + 7.5) + " " + (15 + squarePosition.z - 7.5));
-        console.log(grid[squarePosition.x + 7.5][15 + squarePosition.z - 7.5].bomb);
+        var newCoordinate = {
+          x: squarePosition.z + vertical + 7.5,
+          y: squarePosition.x + horizontal + 7.5
+        }
 
-        if(grid[squarePosition.x + 7.5][15 + squarePosition.z - 7.5].bomb) {
-          skyElement.setAttribute('color', "red");
+        if(newCoordinate.x >= 0 && newCoordinate.x < 16 && newCoordinate.y >= 0 && newCoordinate.y < 16) {
+          squarePosition.x += horizontal;
+          squarePosition.z += vertical;
+          cameraRigPosition.x += horizontal;
+          cameraRigPosition.z += vertical;
+
+          if(grid[newCoordinate.x][newCoordinate.y].bomb) {
+            skyElement.setAttribute('color', "red");
+          }
         }
       }
       else if(!horizontal && !vertical) {
