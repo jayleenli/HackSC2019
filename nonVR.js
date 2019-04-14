@@ -51,10 +51,18 @@ function initGrid(gridId, rowNum, columnNum) {
 
 function flagTile(target) {
 	// console.log(target);
+
 	var flagStatus = target.getAttribute("flagged") == "false" ? "true" : "false";
+	console.log(flagStatus);
 	target.setAttribute("flagged", flagStatus);
-	target.style.border = "medium solid " + flagColor;
-	target.style.background = backgroundColor;
+	if (target.getAttribute("flagged") == "true") {
+		target.style.border = "medium solid " + flagColor;
+		target.style.background = backgroundColor;
+	}
+	else {
+		target.style.border = "1px solid " + backgroundColor;
+		target.style.background = plainColor;
+	}
 }
 
 function revealTile(target, bombIndicator) {

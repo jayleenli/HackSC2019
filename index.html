@@ -3,14 +3,52 @@
 		<script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-app.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-database.js"></script>
 		<script src="./firebase-stuff.js"></script>
+		<style>
+			body {
+				margin: 0;
+				background: #c0392b;  /* fallback for old browsers */
+				background: -webkit-linear-gradient(to right, #8e44ad, #c0392b);  /* Chrome 10-25, Safari 5.1-6 */
+				background: linear-gradient(to right, #8e44ad, #c0392b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+				font-family: Calibri;
+				color: white;
+			}
+			h1 {
+				font-size: 70px;
+			}
+			.content {
+				margin: 0;
+				padding: 0;
+				height: 100vh;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+			h3 {
+				border: 2px white solid;
+				padding: 15px;
+				transition: 0.5s;
+			}
+			h3:hover {
+				background-color: white;
+				color: #c0392b;
+			}
+			a{
+				font-size: 25px;
+				text-align: center;
+				color: white;
+				text-decoration: none;
+			}
+		</style>
 	</head>
 	<body>
-		<a href="./test.html"><h1>I'm in the Minefield</h1></a>
-		<a href="./pc.html"><h1>I'm watching the Minefield</h1></a>
-		<button id="myBtn">Initialize the maze</button>
-		<button id="step">Step on 3, 4</button>
-		<button id="die">Die</button>
-		<button id="state">Get Grid State</button>
+		<div class="content">
+			<h1>Mineyeeter</h1>
+			<div class="buttons">
+				<a href="./test.html" target="_blank"><h3>Inside the Minefield</h3></a>
+				<a href="./nonVR.html" target="_blank"><h3>Ouside the Minefield</h3></a>
+			</div>
+		</div>
 		<script>
 			document.getElementById("myBtn").addEventListener("click", function(){
 			  initMaze();
