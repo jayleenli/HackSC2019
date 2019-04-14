@@ -66,6 +66,7 @@ AFRAME.registerComponent('move', {
 
       var textElement = document.querySelector('#thumbstick-text');
       var squareElement = document.querySelector('#current-square');
+      var skyElement = document.querySelector('a-sky');
       textElement.setAttribute('text', {
         value: "Thumbstick: " +  thumbstick[0].toFixed(2) + " " + thumbstick[1].toFixed(2)
       });
@@ -97,20 +98,26 @@ AFRAME.registerComponent('move', {
       if((horizontal || vertical) && !thumbstickPressed) {
         thumbstickPressed = true;
 
-        var cameraRigPosition = cameraRigElement.object3D.position;
         var squarePosition = squareElement.object3D.position;
-      
-        cameraRigElement.setAttribute('position', {
-          x: cameraRigPosition.x + horizontal,
-          y: cameraRigPosition.y,
-          z: cameraRigPosition.z + vertical
-        });
+        var cameraRigPosition = cameraRigElement.object3D.position;
 
-        squareElement.setAttribute('position', {
-          x: squarePosition.x + horizontal,
-          y: squarePosition.y,
-          z: squarePosition.z + vertical
-        });
+        var newCoordinate = {
+          x: squarePosition.z + vertical + 7.5,
+          y: squarePosition.x + horizontal + 7.5
+        }
+
+        if(newCoordinate.x >= 0 && newCoordinate.x < 16 && newCoordinate.y >= 0 && newCoordinate.y < 16) {
+          squarePosition.x += horizontal;
+          squarePosition.z += vertical;
+          cameraRigPosition.x += horizontal;
+          cameraRigPosition.z += vertical;
+          stepOn(newCoordinate.x, newCoordinate.y); //firebase
+
+          if(grid[newCoordinate.x][newCoordinate.y].bomb) {
+            skyElement.setAttribute('color', "red");
+            died(); //firebase
+          }
+        }
       }
       else if(!horizontal && !vertical) {
         thumbstickPressed = false;
@@ -136,146 +143,3 @@ AFRAME.registerComponent('reset-camera', {
     });
   }
 });
-
-
-/* Game Logic */
-/* Generate object for the grid */
-class GridBlock {
-  constructor(setBomb,number) {
-    this.setBomb = setBomb; 
-    this.number = number;//Bombs will have set number -1
-    this.steppedOn = false;
-    this.marked = false;
-  }
-  //Getters
-  get numberVal() {
-    return this.number;
-  }
-
-  get hasBeenSteppedOn() {
-    return this.steppedOn;
-  }
-
-  //Methods
-  isBomb() {
-    return this.setBomb;
-  }
-  placeBomb() {
-    this.setBomb = true;
-    this.number = "X"; 
-  }
-  setSteppedOn() {
-    this.steppedOn = true;
-  }
-  unsetSteppedOn() {
-    this.steppedOn = false;
-  }
-  isMarked() {
-    this.marked = true;
-  }
-
-  setNumber(num) {
-    this.number = num;
-  }
-  incrementNumber() {
-    this.number++;
-  }
-
-}
-
-function getRandomNumber(max){
-  return Math.floor((Math.random() * 1000) + 1) % max;
-}
-
-/* Generate the grid */
-function createBoard () {
-  /* Plant bombs */
-  totalBombs = 20; //5 for 16x16
-  bombsPlanted = 0;
-  
-  while (bombsPlanted < totalBombs) {
-    x = getRandomNumber(16);
-    y = getRandomNumber(16);
-    if (!grid[x][y].isBomb()) {
-      grid[x][y].placeBomb();
-      countNumbers(x,y);
-      bombsPlanted++;
-
-    }
-  }
-}
-
-//increment numbers based on a given bomb position
-function countNumbers(x,y) {
-  if (inBounds(x-1,y-1))
-  {
-    grid[x-1][y-1].incrementNumber();
-  }
-  if (inBounds(x,y-1))
-  {
-    grid[x][y-1].incrementNumber();
-  }
-  if (inBounds(x+1,y-1))
-  {
-    grid[x+1][y-1].incrementNumber();
-  }
-
-  if (inBounds(x-1,y))
-  {
-    grid[x-1][y].incrementNumber();
-  }
-  if (inBounds(x+1,y))
-  {
-    grid[x+1][y].incrementNumber();
-  }
-
-  if (inBounds(x-1,y+1))
-  {
-    grid[x-1][y+1].incrementNumber();
-  }
-  if (inBounds(x,y+1))
-  {
-    grid[x][y+1].incrementNumber();
-  }
-  if (inBounds(x+1,y+1))
-  {
-    grid[x+1][y+1].incrementNumber();
-  }
-}
-
-function inBounds(x,y) {
-
-  if (x < 0 || y < 0 || x > 15 || y > 15) {
-    return false;
-  }
-  //console.log("is bomb " + grid[x][y].isBomb())
-  if (grid[x][y].isBomb()==true)
-  {
-    return false;
-  }
-  return true;
-}
-
-var grid = new Array(16);
-
-for (var i = 0; i < grid.length; i++) {
-    grid[i] = new Array(16);
-    for(var j = 0; j < grid[i].length; j++) {
-      grid[i][j] = new GridBlock(false,0);
-    }
-}
-
-createBoard();
-console.log("bombs planted!");
-console.log("count numbers");
-
-var printgrid = "";
-for (var i = 0; i < 16; i++)
-{
-  for (var k = 0 ; k < 16; k++)
-  {
-    printgrid += grid[i][k].numberVal + " ";
-  }
-  printgrid +="\n";
-}
-console.log(printgrid);
