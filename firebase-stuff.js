@@ -27,7 +27,7 @@ const fakeGrid = () => {
 	return points;
 };
 
-const initGrid = (presetGrid = fakeGrid()) => {
+const initGrid = (presetGrid = fakeGrid(), currentPos = {x: 0, y: 15}) => {
 	var points = [];
 	for (x=0; x<16; x++) {
 		points[x] = [];
@@ -43,13 +43,15 @@ const initGrid = (presetGrid = fakeGrid()) => {
 	}
 	firebase.database().ref('grids/').set({
 		'points': points,
-		'isDead': false
+		'isDead': false,
+		'currentPosition': currentPos
 	});
 	console.log(points);
 };
 
 const stepOn = (x, y) => {
 	firebase.database().ref('/grids/points/' + x + '/' + y).update({revealed: true});
+	firebase.database().ref('/grids/currentPosition').update({x: x, y: y});
 };
 
 const flagBomb = (x,y) => {
