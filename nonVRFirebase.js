@@ -16,6 +16,8 @@ const firebaseConfig = {
 const init = () => {
 	firebase.initializeApp(firebaseConfig);
 	newCurrTile();
+	onWin();
+	onDead();
 };
 
 window.onload = function() {
@@ -24,12 +26,36 @@ window.onload = function() {
 	initCounter("title-bar");
 }
 
+const onWin = () => {
+	firebase.database().ref('/grids/won').on('value', (snapshot) => {
+		// console.log("onwin");
+		if (snapshot.val()) {
+			// console.log(snapshot.val());
+			displayWin("end-game-pop-up");
+			firebase.database().ref('/grids/currentPosition').off();
+			firebase.database().ref('/grids/isDead').off();
+			firebase.database().ref('/grids/won').off();
+		}
+	})
+}
+
+const onDead = () => {
+	firebase.database().ref('/grids/isDead').on('value', (snapshot) => {
+		if (snapshot.val()) {
+			displayDead("end-game-pop-up");
+			firebase.database().ref('/grids/currentPosition').off();
+			firebase.database().ref('/grids/isDead').off();
+			firebase.database().ref('/grids/won').off();
+		}
+	})
+}
+
 const flagBomb = (x,y) => {
 	firebase.database().ref('/grids/points/' + x + '/' + y).update({flagged: true});
 };
 
 const unflagBomb = (x, y) => {
-	firebase.database().ref('/grids/points' + x + '/' + y).update({flagged: false});
+	firebase.database().ref('/grids/points/' + x + '/' + y).update({flagged: false});
 }
 
 const newCurrTile = () => {
@@ -60,7 +86,7 @@ const getBombCount = (counterId) => {
 	firebase.database().ref('/grids/numBombs').once('value', (snapshot) => {
 		// console.log(snapshot.val());
 		bombCount = snapshot.val();
-		console.log(bombCount);
+		// console.log(bombCount);
 		drawCounter(counterId);
 	});
 }

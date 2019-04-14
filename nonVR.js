@@ -25,7 +25,7 @@ var indicatorColors = {
 
 function initCounter(counterId) {
 	getBombCount(counterId);
-	console.log(bombCount);
+	// console.log(bombCount);
 	// drawCounter(counterId);
 }
 
@@ -33,7 +33,7 @@ function drawCounter(counterId) {
 	var counterBar = document.getElementById(counterId);
 	// console.log(bombCount);
 	// counterBar.innerHTML = "<h1>" + bombCount + "</h1>";
-	console.log(bombCount);
+	// console.log(bombCount);
 	counterBar.innerText = bombCount;
 }
 
@@ -64,6 +64,22 @@ function initGrid(gridId, rowNum, columnNum) {
 	var grids = document.getElementsByClassName("tile");
 	// grids.addEventListener('click', flagGrid, event.target);
 
+}
+
+function displayWin(popUpId) {
+	var popUp = document.getElementById(popUpId);
+	popUp.innerHTML = "Congratulations<br>you<br>SURVIVED!";
+	popUp.style.color = highlightColor;
+	popUp.style.border = "medium solid " + highlightColor;
+	popUp.removeAttribute("hidden");
+}
+
+function displayDead(popUpId) {
+	var popUp = document.getElementById(popUpId);
+	popUp.innerHTML = "Congratulations<br>you<br>EXPLODED.";
+	popUp.style.color = flagColor;
+	popUp.style.border = "medium solid " + flagColor;
+	popUp.removeAttribute("hidden");
 }
 
 function flagTile(target) {
