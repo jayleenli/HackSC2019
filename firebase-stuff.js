@@ -27,7 +27,7 @@ const fakeGrid = () => {
 	return points;
 };
 
-const initGrid = (presetGrid = fakeGrid(), currentPos = {x: 15, y: 0}) => {
+const initGrid = (presetGrid = fakeGrid(), currentPos) => {
 	var points = [];
 	for (x=0; x<16; x++) {
 		points[x] = [];
@@ -46,7 +46,7 @@ const initGrid = (presetGrid = fakeGrid(), currentPos = {x: 15, y: 0}) => {
 		'isDead': false,
 		'currentPosition': currentPos
 	});
-	console.log(points);
+	// console.log(points);
 };
 
 const stepOn = (x, y) => {

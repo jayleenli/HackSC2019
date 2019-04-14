@@ -47,6 +47,37 @@ AFRAME.registerComponent('position-display', {
 	}
 });
 
+AFRAME.registerComponent('spawn', {
+	init: function() {
+		// Initialze grid for game
+		initGame();
+
+		var squareElement = this.el;
+		var cameraRigElement = document.querySelector('#camera-rig');
+
+		var x, y;
+		while(true) {
+			x = getRandomNumber(16);
+    	y = getRandomNumber(16);
+
+    	if(!grid[x][y].bomb && grid[x][y].number == 0) {
+    		console.log((7.5 + x) + " " + (7.5 + y));
+    		// Move camera to spawn location
+	      var squarePosition = squareElement.object3D.position;
+	      var cameraPosition = cameraRigElement.object3D.position;
+	      squarePosition.z = 7.5 + x;
+	      squarePosition.x = 7.5 + y;
+	      cameraPosition.z = 7.5 + x;
+	      cameraPosition.x = 7.5 + y;
+
+	      // Initialize grid in Firebase
+	      initGrid(grid, squarePosition); //firebase
+	      break;
+	    }
+		}
+	}
+});
+
 AFRAME.registerComponent('move', {
 	init: function () {
 		var controllerElement = this.el;
@@ -58,7 +89,7 @@ AFRAME.registerComponent('move', {
 
 		controllerElement.addEventListener('triggerdown', () => {
 			var cameraPosition = cameraRigElement.object3D.position;
-			console.log(cameraPosition);
+			// console.log(cameraPosition);
 		});
 
 		controllerElement.addEventListener('axismove', (event) => {
