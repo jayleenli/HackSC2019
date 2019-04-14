@@ -1,33 +1,17 @@
 const firebaseConfig = {
 	apiKey: "AIzaSyBrAnW65FVKNAcNns3zVfa0z1MT_I0___c",
-    authDomain: "hacksc-538d5.firebaseapp.com",
-    databaseURL: "https://hacksc-538d5.firebaseio.com",
-    projectId: "hacksc-538d5",
-    storageBucket: "hacksc-538d5.appspot.com",
-    messagingSenderId: "548745669097"
+  authDomain: "hacksc-538d5.firebaseapp.com",
+  databaseURL: "https://hacksc-538d5.firebaseio.com",
+  projectId: "hacksc-538d5",
+  storageBucket: "hacksc-538d5.appspot.com",
+  messagingSenderId: "548745669097"
 };
 
 const init = () => {
 	firebase.initializeApp(firebaseConfig);
 };
 
-const fakeGrid = () => {
-	var points = [];
-	for (x=0; x<16; x++) {
-		points[x] = [];
-		for (y=0; y<16; y++) {
-			points[x][y] = {
-				'bomb': 0,
-				'number': 0,
-				'revealed': false,
-				'flagged': false
-			};
-		}
-	}
-	return points;
-};
-
-const initGrid = (presetGrid = fakeGrid(), currentPos = {x: 15, y: 0}) => {
+const initGrid = (presetGrid, currentPos) => {
 	var points = [];
 	for (x=0; x<16; x++) {
 		points[x] = [];
@@ -41,12 +25,12 @@ const initGrid = (presetGrid = fakeGrid(), currentPos = {x: 15, y: 0}) => {
 			};
 		}
 	}
-	firebase.database().ref('grids/').set({
+	firebase.database().ref('grids/').update({
 		'points': points,
 		'isDead': false,
 		'currentPosition': currentPos
 	});
-	console.log(points);
+	// console.log(points);
 };
 
 const stepOn = (x, y) => {
@@ -64,13 +48,16 @@ const died = (x,y) => {
 
 const getGridState = () => {
 	return firebase.database().ref('/grids').once('value').then((snapshot) => {
-		//console.log(snapshot.val());
 		return snapshot.val();
 	});
 }
 
 const resetGrid = (newGrid) => {
 	initGrid(newGrid);
+}
+
+const setNumBombs = (numBombs) => {
+	firebase.database().ref('/grids').update({numBombs: numBombs});
 }
 
 init();

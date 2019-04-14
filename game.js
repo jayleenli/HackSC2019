@@ -1,8 +1,5 @@
 var grid;
-
-window.onload = function() {
-  initGame();
-};
+var numBombs = 30;
 
 function initGame() {
   grid = new Array(16).fill(0);
@@ -21,10 +18,10 @@ function initGame() {
   }
 
   //Plant bombs
-  plantBombs(20);
+  plantBombs(numBombs);
+  setNumBombs(numBombs);
 
   //Print grid to console
-  initGrid(grid) //firebase
   printGrid();
 }
 
