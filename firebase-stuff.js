@@ -28,7 +28,8 @@ const initGrid = (presetGrid, currentPos) => {
 	firebase.database().ref('grids/').update({
 		'points': points,
 		'isDead': false,
-		'currentPosition': currentPos
+		'currentPosition': currentPos,
+		'won': false 
 	});
 	// console.log(points);
 };
@@ -50,6 +51,25 @@ const getGridState = () => {
 	return firebase.database().ref('/grids').once('value').then((snapshot) => {
 		return snapshot.val();
 	});
+}
+
+const checkWin = () => {
+	return (async function(){
+	  	var state = await getGridState();
+	  	for (x=0; x<16; x++) {
+	  		for (y=0; y<16; y++) {
+	  			if (state.points[x][y].revealed == false)
+	  			{
+	  				return false;
+	  			}
+	  		}
+	  	}
+	  	return true;
+	  })();
+}
+
+const updateWin = () => {
+	firebase.database().ref('/grids').update({won: true});
 }
 
 const resetGrid = (newGrid) => {

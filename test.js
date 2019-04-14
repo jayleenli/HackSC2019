@@ -149,6 +149,13 @@ AFRAME.registerComponent('move', {
 						skyElement.setAttribute('color', "red");
 						died(); //firebase
 					}
+					(async function(){
+						  var checkWin = await checkWin();
+						  if (checkWin == true) {
+						  	skyElement.setAttribute('color', "green");
+							updateWin();
+						  }
+					  })();
 				}
 			}
 			else if(!horizontal && !vertical) {
