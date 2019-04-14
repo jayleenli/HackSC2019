@@ -11,6 +11,15 @@ button:focus {
 	outline: none;
 }
 
+#title-bar{
+	width: 100%;
+	background-color: #0b0e30;
+	text-align: center;
+	color: #34386d;
+	font-size: calc(100vw / 12);
+	font-family: Arial, Helvetica, sans-serif;
+}
+
 .tile{
 	width: calc(100% / 16);
 	height: calc(100vw / 16);

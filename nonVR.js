@@ -1,4 +1,5 @@
 
+var bombCount = 0;
 var row = 16;
 var column = 16;
 var backgroundColor = "#0b0e30";
@@ -22,6 +23,19 @@ var indicatorColors = {
 // 	initGrid("mine-field", row, column);
 // }
 
+function initCounter(counterId) {
+	getBombCount(bombCount);
+	// console.log(getBombCount());
+	drawCounter(counterId);
+}
+
+function drawCounter(counterId) {
+	var counterBar = document.getElementById(counterId);
+	// console.log(bombCount);
+	// counterBar.innerHTML = "<h1>" + bombCount + "</h1>";
+	counterBar.innerText = bombCount;
+}
+
 function initGrid(gridId, rowNum, columnNum) {
 	var grid = document.getElementById(gridId);
 	for (var i = 0; i < rowNum; i++) {
@@ -33,8 +47,11 @@ function initGrid(gridId, rowNum, columnNum) {
 			gridButton.setAttribute("type", "button");
 			gridButton.setAttribute("flagged", "false");
 			gridButton.setAttribute("revealed", "false");
+			gridButton.setAttribute("x", i);
+			gridButton.setAttribute("y", j);
 			gridButton.style.borderColor = backgroundColor;
 			gridButton.addEventListener('click', function() {
+				if (bombCount > 0)
 				flagTile(event.currentTarget);
 				// revealTile(event.currentTarget, 1);
 			});
@@ -53,16 +70,23 @@ function flagTile(target) {
 	// console.log(target);
 
 	var flagStatus = target.getAttribute("flagged") == "false" ? "true" : "false";
-	console.log(flagStatus);
+	// console.log(flagStatus);
 	target.setAttribute("flagged", flagStatus);
 	if (target.getAttribute("flagged") == "true") {
 		target.style.border = "medium solid " + flagColor;
 		target.style.background = backgroundColor;
+		if (bombCount > 0) {
+			bombCount--;
+			flagBomb(target.getAttribute("x"), target.getAttribute("y"));
+		}
 	}
 	else {
 		target.style.border = "1px solid " + backgroundColor;
 		target.style.background = plainColor;
+		bombCount++;
+		unflagBomb(target.getAttribute("x"), target.getAttribute("y"));
 	}
+	drawCounter("title-bar");
 }
 
 function revealTile(target, bombIndicator) {
