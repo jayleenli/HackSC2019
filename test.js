@@ -203,37 +203,29 @@ AFRAME.registerComponent('move', {
 
 					if(grid[newCoordinate.x][newCoordinate.y].bomb) {
 						skyElement.setAttribute('color', "red");
+						gameInProgress - false;
 						died(); //firebase
 					}
-					/*
-					(async function(){
-						  var checkWin = await checkWin();
 
-						  if (checkWin == true) {
-						  	console.log('you won');
-						  	skyElement.setAttribute('color', "green");
-							updateWin();
-						  }
-					  })();
-					  */
 					 firebase.database().ref('/grids').once('value').then((snapshot) => {
-					  	var state = snapshot.val();
-					  	var won = true;
-					  	for (x=0; x<16; x++) {
-					  		for (y=0; y<16; y++) {
-					  			if (state.points[x][y].revealed == false && state.points[x][y].bomb == false)
-					  			{
-					  				won = false;
-					  				break;
-					  			}
-					  		}
-					  	}
-					  	if(won == true) {
-					  		console.log('you won');
-						  	skyElement.setAttribute('color', "green");
-								updateWin();
-					  	}
-						});
+				  	var state = snapshot.val();
+				  	var won = true;
+				  	for (x=0; x<16; x++) {
+				  		for (y=0; y<16; y++) {
+				  			if (state.points[x][y].revealed == false && state.points[x][y].bomb == false)
+				  			{
+				  				won = false;
+				  				break;
+				  			}
+				  		}
+				  	}
+				  	if(won == true) {
+				  		console.log('you won');
+					  	skyElement.setAttribute('color', "green");
+					  	gameInProgress = false;
+							updateWin();
+				  	}
+					});
 				}
 			}
 			else if(!horizontal && !vertical) {
@@ -243,3 +235,71 @@ AFRAME.registerComponent('move', {
 	}
 });
 
+AFRAME.registerComponent('generate-enemies', {
+	init: function() {
+		var enemyElement = this.el;
+
+		var side = 2;
+
+		var spawner = setInterval(() => {
+			var newEnemy = document.createElement('a-sphere');
+
+			var row = getRandomNumber(16);
+
+    	if(side % 2 == 0) {
+    		var position1 = {
+    			x: row - 7.5,
+    			y: 1,
+    			z: -10
+    		}
+
+    		var position2 = {
+    			x: row - 7.5,
+    			y: 1,
+    			z: 10
+    		}
+
+    		if(side % 4 == 2) {
+    			position1.x *= -1;
+    			position2.x *= -1;
+    		}
+    	}
+    	else {
+    		var position1 = {
+    			x: -10,
+    			y: 1,
+    			z: row - 7.5
+    		}
+
+    		var position2 = {
+    			x: 10,
+    			y: 1,
+    			z: row - 7.5
+    		}
+
+    		if(side % 4 == 3) {
+    			position1.z *= -1;
+    			position2.z *= -1;
+    		}
+    	}
+
+			newEnemy.setAttribute('color', 'gray');
+			newEnemy.setAttribute('radius', 0.5);
+			newEnemy.setAttribute('position', position1); 
+			newEnemy.setAttribute('animation', {
+				property: "position",
+				to: position2,
+				dur: 10000,
+				easing: "linear"
+			});
+
+			enemyElement.appendChild(newEnemy);
+
+			side++;
+
+			setTimeout(() => {
+				newEnemy.parentNode.removeChild(newEnemy);
+			}, 10000);
+		}, 5000);
+	}
+})
