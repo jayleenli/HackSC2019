@@ -1,0 +1,21 @@
+
+body{
+	background: #0b0e30;
+}
+
+button{
+	float: left;
+}
+
+.tile{
+	width: calc(100% / 16);
+	height: calc(100vw / 16);
+	background-color: #34386d;
+	text-align: center;
+	color: white;
+	padding: 0px;
+	margin: 0px;
+	line-height: 0px;
+	letter-spacing: 0px;
+	font-size: calc(100vw / 16);
+}
