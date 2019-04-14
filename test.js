@@ -56,10 +56,18 @@ AFRAME.registerComponent('move', {
 		var thumbstickPressed = false;
 		var threshold = 0.7;
 
-		controllerElement.addEventListener('triggerdown', () => {
-			var cameraPosition = cameraRigElement.object3D.position;
-			console.log(cameraPosition);
-		});
+		// controllerElement.addEventListener('triggerdown', () => {
+		// 	var cameraPosition = cameraRigElement.object3D.position;
+		// 	console.log(cameraPosition);
+		// });
+
+		var element = document.querySelector('#redbox');
+
+		console.log(element);
+
+		controllerElement.addEventListener('gripdown', (event) => {
+			element.setAttribute('visible', true);
+		})
 
 		controllerElement.addEventListener('axismove', (event) => {
 			var thumbstick = event.detail.axis;

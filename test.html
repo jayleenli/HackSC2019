@@ -60,8 +60,7 @@
              collision-filter="group: green; collidesWith: default, green">
       		</a-box>
 
-      		<a-box visible="false" mixin="cube" position="-4 1 7" color="red"
-             collision-filter="group: green; collidesWith: default, green" id="redbox">
+      		<a-box visible="false" mixin="cube" position="-4 0.25 7" color="red" collision-filter="group: green; collidesWith: default, green" id="redbox">
       		</a-box>
       			<!--animation="property: position; to: 0 15 0; dur: 15000; easing: linear" -->
 			<!--Flag-->
@@ -72,13 +71,5 @@
 				<a-triangle color="#ff0000" vertex-c=".6 -.25 .6" vertex-a="0 0 0" vertex-b="0 -.5 0" position="0 .75 0"></a-triangle>
 			</a-entity>
 		</a-scene>
-		<script>
-			var element = document.querySelector("a-scene").querySelector("#redbox");
-			console.log(element);
-			element.setAttribute('visible', true);
-			element.addEventListener('gripdown', () => {
-				element.setAttribute('visible', false);
-			});
-		</script>
 	</body>
 </html>
