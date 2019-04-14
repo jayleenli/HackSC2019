@@ -15,7 +15,7 @@
 
 	</head>
 	<body>
-		<a-scene>
+		<a-scene physics="gravity: 0">
 			<a-assets>
 				<a-mixin id="controller"
                  super-hands="colliderEvent: collisions;
@@ -56,10 +56,10 @@
 			<!-- Current Square -->
 			<a-plane id="current-square" position="-7.5 0.01 7.5" rotation="-90 0 0" width="1" height="1" color="cyan" ></a-plane>
 
-			<a-box mixin="cube" position="-5 6 7" color="green"
+			<a-box mixin="cube" position="-5 1 7" color="green"
              collision-filter="group: green; collidesWith: default, green">
       		</a-box>
-
+      			<!--animation="property: position; to: 0 15 0; dur: 15000; easing: linear" -->
 			<!--Flag-->
 			<a-entity id ="flag" visible="false">
 				<a-box position="-10 .1 0" color="#5b5b5b" rotation="0 0 0" width="1" height=".1" depth="1">
