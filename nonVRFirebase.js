@@ -56,10 +56,12 @@ const revealNewTile = (tile, currGrid) => {
 		});
 }
 
-const getBombCount = (bombCount) => {
+const getBombCount = (counterId) => {
 	firebase.database().ref('/grids/numBombs').once('value', (snapshot) => {
-		console.log(snapshot.val());
+		// console.log(snapshot.val());
 		bombCount = snapshot.val();
+		console.log(bombCount);
+		drawCounter(counterId);
 	});
 }
 

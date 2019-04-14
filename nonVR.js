@@ -24,15 +24,16 @@ var indicatorColors = {
 // }
 
 function initCounter(counterId) {
-	getBombCount(bombCount);
-	// console.log(getBombCount());
-	drawCounter(counterId);
+	getBombCount(counterId);
+	console.log(bombCount);
+	// drawCounter(counterId);
 }
 
 function drawCounter(counterId) {
 	var counterBar = document.getElementById(counterId);
 	// console.log(bombCount);
 	// counterBar.innerHTML = "<h1>" + bombCount + "</h1>";
+	console.log(bombCount);
 	counterBar.innerText = bombCount;
 }
 
@@ -51,7 +52,6 @@ function initGrid(gridId, rowNum, columnNum) {
 			gridButton.setAttribute("y", j);
 			gridButton.style.borderColor = backgroundColor;
 			gridButton.addEventListener('click', function() {
-				if (bombCount > 0)
 				flagTile(event.currentTarget);
 				// revealTile(event.currentTarget, 1);
 			});
@@ -72,15 +72,16 @@ function flagTile(target) {
 	var flagStatus = target.getAttribute("flagged") == "false" ? "true" : "false";
 	// console.log(flagStatus);
 	target.setAttribute("flagged", flagStatus);
-	if (target.getAttribute("flagged") == "true") {
+	if (target.getAttribute("flagged") == "true" && bombCount > 0) {
 		target.style.border = "medium solid " + flagColor;
 		target.style.background = backgroundColor;
-		if (bombCount > 0) {
-			bombCount--;
-			flagBomb(target.getAttribute("x"), target.getAttribute("y"));
-		}
+		bombCount--;
+		flagBomb(target.getAttribute("x"), target.getAttribute("y"));
 	}
-	else {
+	else if (target.getAttribute("flagged") == "true") {
+		target.setAttribute("flagged", "false");
+	}
+	else if (target.getAttribute("flagged") == "false") {
 		target.style.border = "1px solid " + backgroundColor;
 		target.style.background = plainColor;
 		bombCount++;
