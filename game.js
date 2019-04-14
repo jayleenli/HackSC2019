@@ -24,6 +24,7 @@ function initGame() {
   plantBombs(20);
 
   //Print grid to console
+  initGrid(grid) //firebase
   printGrid();
 }
 

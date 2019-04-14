@@ -111,9 +111,11 @@ AFRAME.registerComponent('move', {
           squarePosition.z += vertical;
           cameraRigPosition.x += horizontal;
           cameraRigPosition.z += vertical;
+          stepOn(newCoordinate.x, newCoordinate.y); //firebase
 
           if(grid[newCoordinate.x][newCoordinate.y].bomb) {
             skyElement.setAttribute('color', "red");
+            died(); //firebase
           }
         }
       }
