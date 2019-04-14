@@ -1,5 +1,5 @@
 var grid;
-var numBombs = 2;
+var numBombs = 15;
 var playerCoordinate = {
   x: 7.5,
   y: -7.5

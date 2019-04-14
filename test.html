@@ -12,7 +12,6 @@
 		<script src="https://unpkg.com/aframe-physics-extras@0.1.2/dist/aframe-physics-extras.min.js"></script>
 		<script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
 		<script src="https://unpkg.com/aframe-event-set-component@^4.0.0/dist/aframe-event-set-component.min.js"></script>
-
 	</head>
 	<body>
 		<a-scene physics="gravity: -.5">
@@ -31,6 +30,7 @@
 		        </a-mixin>
 		        <a-mixin id="cube" geometry="width: 1; height: 1; depth: 1" dynamic-body hoverable grabbable></a-mixin>
 			</a-assets>
+
 			<!-- Camera and Motion Controllers -->
 			<a-entity id="camera-rig">
 				<a-entity id="camera" camera position="0 1.6 0" look-controls wasd-controls rotation="0 -90 0" position-display>

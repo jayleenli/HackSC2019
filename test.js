@@ -102,6 +102,9 @@ AFRAME.registerComponent('spawn', {
 	      cameraPosition.z = x - 7.5;
 	      cameraPosition.x = y - 7.5;
 
+	      playerCoordinate.x = x - 7.5;
+	      playerCoordinate.y = y = 7.5;
+
 	      // Initialize grid in Firebase
 	      initGrid(grid, {x: x, y: y}); //firebase
 	      break;
